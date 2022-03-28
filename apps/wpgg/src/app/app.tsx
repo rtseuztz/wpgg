@@ -61,7 +61,7 @@ class App extends Component<{}, {
             }
         })
     }
-    getUser(inputName: string, callback: { (user: user): false | undefined; (arg0: any): void; }) {
+    getUser(inputName: string, callback: (user: user) => any) {
         $.get({
             url: '/api',
             data: {

@@ -11,8 +11,8 @@ import path = require('path');
 //var es = require('event-stream');
 //var loadJsonFile = require('load-json-file');
 //var { loadJsonFile } = require('load-json-file');
-const key: string = process.env.api_key;
-
+const key: string = process.env.API_KEY;
+console.log(key);
 const t = {
     processGet: async function (req: Req) {
         const query: Query = req.query
