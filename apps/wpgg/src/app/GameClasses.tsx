@@ -102,7 +102,7 @@ class ParticipantList extends Component<ParticipantListProps> {
 }
 enum Side {
     Left = "participantLeft",
-    Right = "participantLeft"
+    Right = "participantRight"
 } 
 type ParticipantProps = {
     side: Side

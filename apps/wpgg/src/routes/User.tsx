@@ -1,15 +1,15 @@
-import { Component, useEffect } from 'react'
+import React, { Component, useEffect, useState } from 'react'
 import * as GameClass from '../app/GameClasses'
 import { useParams } from 'react-router-dom';
 import _ from 'lodash';
 import $ from 'jquery';
 
-let params: any
-function GetParams() {
-    const webParams = useParams();
-    params = webParams
-    return <div></div>;
-}
+// function GetParams() {
+//     const webParams = useParams();
+//     params = webParams
+//     return <div></div>;
+// }
+// let params: any
 type user = {
     name: string,
     puuid: string,
@@ -22,52 +22,50 @@ type user = {
   type LOLPalProps = {
     string: never
   }
-class User extends Component<{}, {
-    name: string,
+
+  /*
+      name: string,
     inputName: string,
     level: number,
     games: game[],
     user: user
-  }> {
-      constructor(props: {}) {
-  
-          super(props);
-          this.state = {
-              name: "",
-              inputName: "",
-              level: 0,
-              games: [],
-              user: {
-                name: "",
-                puuid: "",
-                summonerLevel: 0
-              }
-          };
-          this.searchUser = this.searchUser.bind(this);
-          this.handleKeyDown = this.handleKeyDown.bind(this);
-          this.handleClick = this.handleClick.bind(this);
-          this.handleChange = this.handleChange.bind(this);
-          this.getUser = this.getUser.bind(this);
-          this.loadGames = this.loadGames.bind(this);
-          this.getGameRows = this.getGameRows.bind(this);
-          //this.getLeftTab = this.getLeftTab.bind(this);
-          this.getParticipants = this.getParticipants.bind(this);
-          this.findChampion = this.findChampion.bind(this);
-          this.getGameBox = this.getGameBox.bind(this);
-      }
-      override componentDidMount() {
-        console.log("User componenet mounted")
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        GetParams()
+    */
+
+function User() { 
+    const params = useParams()
+    const name: any = params['name']
+    const [inputName, setInputName] = useState<string>(name)
+    const [games, setGames] = useState<game[]>([])
+    const [user, setUser] = useState<user>({
+            name: "",
+            puuid: "",
+            summonerLevel: 0
+    })
+    const [oldData, setOldData] = useState({
+        name: "",
+        level: 0
+    })
+
+    useEffect(()=> {
+        console.log(useEffect)
         console.log(params);
-        this.setState({
-            inputName: params.name
-        })
-        this.searchUser()
-          //let t = this;
+        const name: any = params['name']
+        setInputName(name)
+        searchUser()
+    }, [params])
+        //   this.searchUser = this.searchUser.bind(this);
+        //   this.handleKeyDown = this.handleKeyDown.bind(this);
+        //   this.handleClick = this.handleClick.bind(this);
+        //   this.handleChange = this.handleChange.bind(this);
+        //   this.getUser = this.getUser.bind(this);
+        //   this.loadGames = this.loadGames.bind(this);
+        //   this.getGameRows = this.getGameRows.bind(this);
+        //   //this.getLeftTab = this.getLeftTab.bind(this);
+        //   this.getParticipants = this.getParticipants.bind(this);
+        //   this.findChampion = this.findChampion.bind(this);
+        //   this.getGameBox = this.getGameBox.bind(this);
           
-      }
-      getUser(inputName: string, callback: (user: user) => any) {
+      const getUser = (inputName: string, callback: (user: user) => any) => {
           $.get({
               url: '/api',
               data: {
@@ -75,7 +73,7 @@ class User extends Component<{}, {
                   name: inputName
               },
               success: function (result) {
-                  if (result == "Error") {
+                  if (result === "Error") {
                       callback(result);
                   }
                   //let user = JSON.parse(result);
@@ -85,7 +83,7 @@ class User extends Component<{}, {
               }
           })
       }
-      loadGames(puuid: string, callback: (gameList: game[]) => any): void {
+      const loadGames = (puuid: string, callback: (gameList: game[]) => any): void => {
           $.ajax({
               type: "GET",
               url: "/api",
@@ -104,44 +102,40 @@ class User extends Component<{}, {
               }
           })
       }
-      handleClick(e: any) {
-          this.searchUser();
+      const handleClick = (e: any) => {
+          searchUser();
       }
-      handleKeyDown(event: { key: string; }) {
+      const handleKeyDown = (event: { key: string; }) => {
           if (event.key == 'Enter') {
-              this.searchUser();
+              searchUser();
           }
       }
-      searchUser() {
+      function searchUser() {
           //let inputName = event.target.value
-          const inputName:string = this.state.inputName;
-          this.getUser(inputName,  (user: user) => {
+          const name:any = params['name']
+          getUser(name,  (user: user) => {
               if (user) {
                 let currentGames = [];
-                this.loadGames(user.puuid,  (gameList: game[]) => {
+                loadGames(user.puuid,  (gameList: Array<game>) => {
                   console.log(!gameList)  
                   if (gameList && gameList.length > 0) {
                       currentGames = gameList;
                       console.log("ISWORKING!! !");
-                      this.setState({
-                          user: user,
-                          name: user.name,
-                          level: user.summonerLevel,
-                          games: currentGames,
-                      })
+                      setUser(user)
+                      setOldData({level: user.summonerLevel, name: user.name})
+                      setGames(gameList)
+                    //   this.setState({
+                    //       user: user,
+                    //       name: user.name,
+                    //       level: user.summonerLevel,
+                    //       games: currentGames,
+                    //   })
                     }
                 });
               }
           });
       }
-      handleChange(event: { target: { value: any; }; }) {
-          this.setState({
-              inputName: event.target.value
-          });
-      }
-      getGameRows() {
-          const games = this.state.games;
-  
+      const getGameRows = () => {
           const gameList: JSX.Element[] = []
   
           const gameArr = games ? _.sortBy(games, (game) => {
@@ -152,48 +146,49 @@ class User extends Component<{}, {
               const game = gameArr[i];
               if (game !== undefined) {
                   console.log("147");
-  
                   const participants = game.info.participants
-                  const user = _.find(participants, (x) => {
-                      return x.summonerName === this.state.name;
+                  const gameUser = _.find(participants, (x) => {
+                      return x.summonerName === user.name
   
                   });
-                  const champion = user.championName;
-                  const gameDate = new Date(game.info.gameCreation).toLocaleDateString();
-                  const gameStats = <GameClass.GameStats
-                      kda={((user.kills + user.assists) / user.deaths).toFixed(2)}
-                      longkda={user.kills + "/" + user.deaths + "/" + user.assists}
-                      score={4}
-                  />//user.kills + "/" + user.deaths + "/" + user.assists;
-                  const participantsComponent: JSX.Element = this.getParticipants(participants);
-                  const gameBox: JSX.Element = this.getGameBox(participantsComponent);
-                  const win = user.win? GameClass.Win.Win : GameClass.Win.Lose
-  
-                  gameList[i] = <GameClass.GameFacade
-                      key={i}
-                      win={win}
-                      gameBox={gameBox}
-                      championIcon={champion}
-                      gameStats={gameStats}
-                      gameDate={gameDate}
-  
-  
-                  />;
+                  if (gameUser) {
+                    const champion = gameUser.championName;
+                    const gameDate = new Date(game.info.gameCreation).toLocaleDateString();
+                    const gameStats = <GameClass.GameStats
+                        kda={((gameUser.kills + gameUser.assists) / gameUser.deaths).toFixed(2)}
+                        longkda={gameUser.kills + "/" + gameUser.deaths + "/" + gameUser.assists}
+                        score={4}
+                    />//user.kills + "/" + user.deaths + "/" + user.assists;
+                    const participantsComponent: JSX.Element = getParticipants(participants);
+                    const gameBox: JSX.Element = getGameBox(participantsComponent);
+                    const win = gameUser.win? GameClass.Win.Win : GameClass.Win.Lose
+    
+                    gameList[i] = <GameClass.GameFacade
+                        key={i}
+                        win={win}
+                        gameBox={gameBox}
+                        championIcon={champion}
+                        gameStats={gameStats}
+                        gameDate={gameDate}
+    
+    
+                    />;
+                  }
               }
           }
           return <ol className="gameList">{gameList}</ol>;
       }
-      getGameBox(participantsComponent: any) {
+      const getGameBox = (participantsComponent: any) => {
           return <GameClass.Game
           participantsComponent={participantsComponent}
            />
       }
-      getParticipants(participants: { [x: string]: any; }) {
+      const getParticipants = (participants: { [x: string]: any; }) => {
           let team1: any[] = [];
           let team2: any[]  = [];
           for (const p in participants) {
               const player = participants[p];
-              player.teamId == '100'
+              player.teamId === '100'
                   ? team1.push(player)
                   : team2.push(player);
           }
@@ -223,16 +218,13 @@ class User extends Component<{}, {
           )
   
       }
-      findChampion() {
+      const findChampion = () => {
           console.log("X");
       }
-      override render() {
-
-        return (
-            <div className="contentBox">
-                {this.getGameRows()}
-            </div>
-        );
-    }
+    return (
+        <div className="contentBox">
+            {getGameRows()}
+        </div>
+    );
 }
 export default User

@@ -184,6 +184,10 @@ button {
     grid-column-gap: 5px;
     text-align: right;
 }
+.participantRight .summonerName {
+    grid-column-start: 1;
+    grid-row-start: 1;
+}
 .contentBox .gameBox {
     color: #888888;
 }

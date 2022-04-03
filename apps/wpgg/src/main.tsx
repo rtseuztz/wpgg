@@ -10,7 +10,6 @@ ReactDOM.render(
       <Routes>
         {/* Nesting the routers makes the layout shared*/}
         <Route path="/" element={<App />}> 
-          <Route path="user" element={<User />} />
           <Route path="/:name" element={<User />} />
         </Route>
         
