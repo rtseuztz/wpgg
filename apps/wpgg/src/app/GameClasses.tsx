@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import ReactDOM from 'react-dom';
+import {images} from './champion/index'
 type GameProps =  {
     participantsComponent: ParticipantList
 }
@@ -20,8 +20,12 @@ class Game extends Component<GameProps, {
         );
     }
 }
+enum Win {
+    Win = "win",
+    Lose = "lose"
+} 
 type GameFacadeProps = {
-    win: boolean,
+    win: Win,
     gameStats: JSX.Element,
     gameDate: string,
     gameBox: JSX.Element,
@@ -39,30 +43,37 @@ class GameFacade extends Component<GameFacadeProps, {
 
     }
 
-    handleClick() {
-        //let inputName = event.target.value
-        if (this.state.expand == " expand") {
-            this.setState({
-                expand: ""
-            })
-        } else {
-            this.setState({
-                expand: " expand"
-            })
+    handleClick(e: any) {
+        switch (e.target.className) {
+            case "fullScreen":
+                console.log("full");
+                break;
+            default:
+                if (this.state.expand === " expand") {
+                    this.setState({
+                        expand: ""
+                    })
+                } else {
+                    this.setState({
+                        expand: " expand"
+                    })
+                }
         }
-
     }
     override render() {
         return (
             <div className={"gameFacade " + this.props.win + this.state.expand} onClick={this.handleClick}>
                 <div className="gameDisplay">
                     <img 
-                        alt="championNameHere"
+                        alt=""
                         className="championIcon" 
-                        src={"champion/" + this.props.championIcon + ".png"} 
+                        src={images[this.props.championIcon + ".png"]} 
                         />
                     <div className="gameStats">{this.props.gameStats}</div>
                     <div className="gameDate">{this.props.gameDate}</div>
+                    <div className='fullScreen'>
+                        O
+                    </div>
                 </div>
                 {this.props.gameBox}
             </div>
@@ -108,7 +119,7 @@ class Participant extends Component<ParticipantProps> {
     override render() {
         return (
             <div className={this.props.side}>
-                <img alt="" className="championIcon" src={"champion/" + this.props.championIcon + ".png"} />
+                <img alt="" className="championIcon" src={images[this.props.championIcon + ".png"]} />
                 <div className="summonerName">{this.props.summonerName}</div>
             </div>
         );
@@ -137,5 +148,5 @@ class GameStats extends Component<GameStatsProps> {
         );
     }
 }
-export {Game, GameFacade, ParticipantList, Participant, GameStats, Side}
+export {Game, GameFacade, ParticipantList, Participant, GameStats, Side, Win}
     //export default GameModule.Game
