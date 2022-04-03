@@ -1,8 +1,21 @@
 import * as GameClass from './GameClasses'
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
+import { Link, Outlet } from 'react-router-dom';
 import _ from 'lodash';
 import $ from 'jquery';
+// function importAll(r: any): any {
+//     const image: any = {};
+//     _.each(r.keys(), item => {
+//         images[item.replace('./', '')] = r(item)
+//     })
+//     return images;
+// }
+
+// // eslint-disable-next-line no-useless-escape
+// const images = importAll(require.context('./images', false, /\.png/));
+
+
 type user = {
   name: string,
   puuid: string,
@@ -112,8 +125,9 @@ class App extends Component<{}, {
         this.getUser(inputName,  (user: user) => {
             if (user) {
               let currentGames = [];
-              this.loadGames(user.puuid,  (gameList: any[]) => {
-                  if (!gameList || gameList.length == 0) {
+              this.loadGames(user.puuid,  (gameList: game[]) => {
+                console.log(!gameList)  
+                if (gameList && gameList.length > 0) {
                     currentGames = gameList;
                     console.log("ISWORKING!! !");
                     this.setState({
@@ -140,14 +154,15 @@ class App extends Component<{}, {
         const gameArr = games ? _.sortBy(games, (game) => {
             return -game.info.gameCreation
         }) : [];
-
+        console.log(games.length);
         for (const i in gameArr) {
             const game = gameArr[i];
-            if (game != undefined) {
+            if (game !== undefined) {
+                console.log("147");
 
                 const participants = game.info.participants
                 const user = _.find(participants, (x) => {
-                    return x.summonerName == this.state.name;
+                    return x.summonerName === this.state.name;
 
                 });
                 const champion = user.championName;
@@ -159,7 +174,7 @@ class App extends Component<{}, {
                 />//user.kills + "/" + user.deaths + "/" + user.assists;
                 const participantsComponent: JSX.Element = this.getParticipants(participants);
                 const gameBox: JSX.Element = this.getGameBox(participantsComponent);
-                const win = user.win;
+                const win = user.win? GameClass.Win.Win : GameClass.Win.Lose
 
                 gameList[i] = <GameClass.GameFacade
                     key={i}
@@ -225,9 +240,13 @@ class App extends Component<{}, {
                 <header id="header">LOLPal{/*
                     <div htmlFor="summoner_name_input" id="summoner_name_input_label">Enter your summoner name</div>*/}
                     <input id="summoner_name_input" name="summonerNameInput" placeholder="Search for a player..." onChange={this.handleChange} onKeyDown={this.handleKeyDown}/>
-                    <button onClick={this.handleClick}>Search</button>
-
+                    <button onClick={this.handleClick}>
+                        <Link to={"banana"}></Link>
+                        Search
+                    </button>
+                    
                 </header>
+                <Outlet/>
                 {this.getGameRows()}
             </div>
         );
