@@ -1,7 +1,7 @@
 import * as GameClass from './GameClasses'
 import React, {Component, useState} from 'react';
 import ReactDOM from 'react-dom';
-import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { Link, Outlet, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import _ from 'lodash';
 import $ from 'jquery';
 // function importAll(r: any): any {
@@ -254,16 +254,18 @@ import $ from 'jquery';
         }
         // onChange={this.handleChange} 
         return (
-            <div className="contentBox">
-                <header id="header">LOLPal{/*
+            <div id="main">
+                <nav>
+                    <div className="sticky">
+                        LOLPal{/*
                     <div htmlFor="summoner_name_input" id="summoner_name_input_label">Enter your summoner name</div>*/}
                     <input id="summoner_name_input" name="summonerNameInput" placeholder="Search for a player..." onChange={handleChange}  onKeyDown={handleKeyDown}/>
                     <button onClick={handleClick}>
                         <Link to={"banana"}></Link>
                         Search
                     </button>
-                    
-                </header>
+                    </div>
+                </nav>
                 <Outlet/>
             </div>
         );

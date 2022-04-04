@@ -186,12 +186,14 @@ function User() {
       const getParticipants = (participants: { [x: string]: any; }) => {
           let team1: any[] = [];
           let team2: any[]  = [];
+          console.log(participants)
           for (const p in participants) {
               const player = participants[p];
-              player.teamId === '100'
+              player.teamId === 100
                   ? team1.push(player)
                   : team2.push(player);
           }
+          console.log("team 1 is :" + team1 + "\n team 2 is "+ team2)
           team1 = _.map(team1, (p) => {
               return <GameClass.Participant
                   side={GameClass.Side.Left}

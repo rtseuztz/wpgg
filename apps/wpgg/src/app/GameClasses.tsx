@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {images} from './champion/index'
+import {images} from './images/champion/index'
 type GameProps =  {
     participantsComponent: ParticipantList
 }
