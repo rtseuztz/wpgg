@@ -5,5 +5,19 @@
     "api-interfaces": "libs/api-interfaces",
     "wpgg": "apps/wpgg",
     "wpgg-e2e": "apps/wpgg-e2e"
+  },
+  "serve-with-services": {
+    "builder": "@nrwl/workspace:run-commands",
+    "options": {
+      "commands": [
+        {
+          "command": "npx nx serve api"
+        },
+        {
+          "command": "npx nx serve wpgg --open"
+        }
+      ],
+      "parallel": true
+    }
   }
 }

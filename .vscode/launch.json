@@ -5,11 +5,31 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "pwa-chrome",
+            "name": "Launch via NPM",
             "request": "launch",
-            "name": "Launch Chrome against localhost",
-            "url": "http://localhost:4200",
-            "webRoot": "${workspaceFolder}/apps/wpgg"
-        }
+            "runtimeArgs": [
+            ],
+            "runtimeExecutable": "npx nx serve wpgg",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "type": "node"
+        },
+
+        {
+            "name": "debug-jest-lib",
+             "type": "node",
+             "request": "launch",
+             "program": "${workspaceFolder}/node_modules/@angular/cli/bin/ng",
+             "args": [
+               "test", 
+               "cars",
+               "--codeCoverage=false",
+               "--testNamePattern=CarService",
+               "--testFile=${workspaceFolder}/libs/cars/src/lib/cars.service.spec.ts"
+             ],
+             "cwd": "${workspaceFolder}",
+             "console": "internalConsole"
+           }
     ]
 }

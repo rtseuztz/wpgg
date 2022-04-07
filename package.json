@@ -11,6 +11,7 @@
   "dependencies": {
     "@types/jquery": "^3.5.14",
     "@types/lodash": "^4.14.180",
+    "big-text.js": "^1.0.1",
     "concurrently": "^7.0.0",
     "core-js": "^3.6.5",
     "dotenv": "^16.0.0",
@@ -20,6 +21,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-router-dom": "^6.3.0",
+    "react-textfit": "^1.1.1",
     "regenerator-runtime": "0.13.7",
     "tslib": "^2.0.0"
   },
@@ -41,6 +43,7 @@
     "@types/node": "16.11.7",
     "@types/react": "17.0.40",
     "@types/react-dom": "17.0.13",
+    "@types/react-textfit": "^1.1.0",
     "@types/webpack-env": "^1.16.3",
     "@typescript-eslint/eslint-plugin": "~5.10.0",
     "@typescript-eslint/parser": "~5.10.0",

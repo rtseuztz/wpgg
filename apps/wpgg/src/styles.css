@@ -83,14 +83,14 @@ body {
 }
 nav {
     height: 100%; 
-    /*width: 40%;
-    background-color:#100920;*/
+    width: 40%;
+    /*background-color:#100920;*/
     display:flex;
     flex-direction: column;
     align-items: center;
     color: #888888;
-    font-size: 24px;
-    font-size: 12vw;
+    /* font-size: 24px;
+    font-size: 12vw; */
     top: 0px;
     left: 0px;
     background: #07010ad1;
@@ -101,6 +101,9 @@ nav {
 nav > div {
     position: sticky;
     top: 0px;
+}
+.title {
+    width: 100%;
 }
 #summoner_name_input {
     border-radius: 20px;

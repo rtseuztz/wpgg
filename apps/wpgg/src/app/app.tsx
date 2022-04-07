@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import { Link, Outlet, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import _ from 'lodash';
 import $ from 'jquery';
+import {Textfit} from 'react-textfit'
 // function importAll(r: any): any {
 //     const image: any = {};
 //     _.each(r.keys(), item => {
@@ -235,6 +236,7 @@ import $ from 'jquery';
 //     }
     function App() {
         const [inputName, setInputName] = useState("")
+        const [name, setName] = useState("LOLPal")
         const navigate = useNavigate()
         const location = useLocation()
         const handleChange = (e: any) => {
@@ -250,6 +252,7 @@ import $ from 'jquery';
         }
         const redirectToUser = () => {
             console.log("redirecting...")
+            setName(inputName)
             navigate("/" + inputName)
         }
         // onChange={this.handleChange} 
@@ -257,7 +260,8 @@ import $ from 'jquery';
             <div id="main">
                 <nav>
                     <div className="sticky">
-                        LOLPal{/*
+                        <Textfit mode='single'>{name}</Textfit>
+                        {/*
                     <div htmlFor="summoner_name_input" id="summoner_name_input_label">Enter your summoner name</div>*/}
                     <input id="summoner_name_input" name="summonerNameInput" placeholder="Search for a player..." onChange={handleChange}  onKeyDown={handleKeyDown}/>
                     <button onClick={handleClick}>
